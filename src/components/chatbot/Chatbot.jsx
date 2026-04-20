@@ -193,11 +193,14 @@ export default function Chatbot() {
           lower.includes('contact')
 
         if (shouldForward) {
-          setShowContactForm(false)
+          setShowContactForm(true)
 
           setMessages((prev) => [
             ...prev,
-            { sender: 'bot', text: 'Your query has been sent to Vyom.' },
+            {
+              sender: 'bot',
+              text: 'Please fill the form below and Vyom will get back to you as soon as possible.',
+            },
           ])
 
           try {
@@ -272,7 +275,7 @@ export default function Chatbot() {
       {isOpen && (
         <div className="fixed bottom-24 right-6 z-[9999] w-[380px] md:w-[420px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-3xl border border-white/10 bg-[#0f172a]/95 shadow-2xl backdrop-blur-xl">
           <div className="border-b border-white/10 px-5 py-4">
-            <h3 className="text-base font-semibold text-white">Chat with Vyom's Bot</h3>
+            <h3 className="text-base font-semibold text-white">Chat with Vyom&apos;s Bot</h3>
           </div>
 
           <div
