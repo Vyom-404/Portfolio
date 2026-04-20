@@ -34,14 +34,16 @@ export default function IntroSection() {
 
         <div data-float-card className="grid gap-3 sm:gap-4 md:gap-4">
           {chips.map((chip, index) => (
-            <div
+            <motion.div
               key={chip}
               data-reveal
-              className="glass-panel rounded-[18px] sm:rounded-[20px] md:rounded-[24px] px-4 sm:px-5 py-3 sm:py-4 text-xs sm:text-sm uppercase tracking-[0.24em] sm:tracking-[0.28em] text-muted shadow-soft"
+              whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(124, 140, 255, 0.4)' }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className="glass-panel rounded-[18px] sm:rounded-[20px] md:rounded-[24px] px-4 sm:px-5 py-3 sm:py-4 text-xs sm:text-sm uppercase tracking-[0.24em] sm:tracking-[0.28em] text-muted shadow-soft cursor-pointer"
               style={{ transform: `translateX(${index % 2 === 0 ? '0px' : '16px'})` }}
             >
               {chip}
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

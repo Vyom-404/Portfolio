@@ -1,4 +1,5 @@
-import { Menu } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
+import { useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 
@@ -12,6 +13,7 @@ const navItems = [
 ]
 
 export default function Navbar() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const handleScroll = (id) => {
     const section = document.querySelector(id)
@@ -25,6 +27,8 @@ export default function Navbar() {
         offsetY: 80,
       },
     })
+    
+    setIsMobileMenuOpen(false)
   }
 
   return (
@@ -61,11 +65,52 @@ export default function Navbar() {
         </button>
 
         {/* Mobile Menu Icon */}
-        <button className="md:hidden ml-auto flex-shrink-0" aria-label="Navigation">
-          <Menu className="h-4 w-4 sm:h-5 sm:w-5 text-text" />
+        <button 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="md:hidden ml-auto flex-shrink-0" 
+          aria-label="Navigation"
+        >
+          {isMobileMenuOpen ? (
+            <X className="h-4 w-4 sm:h-5 sm:w-5 text-text" />
+          ) : (
+            <Menu className="h-4 w-4 sm:h-5 sm:w-5 text-text" />
+          )}
         </button>
 
       </div>
+
+      {/* Mobile Menu Backdrop */}
+      {isMobileMenuOpen && (
+        <div 
+          className="md:hidden fixed inset-0 top-[60px] bg-black/40 z-30"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed left-0 right-0 top-[60px] z-40 px-3 py-4">
+          <div className="mx-auto max-w-7xl rounded-2xl border border-white/10 bg-white/10 backdrop-blur-xl px-4 py-4">
+            <nav className="flex flex-col gap-3">
+              {navItems.map((item) => (
+                <button
+                  key={item.label}
+                  onClick={() => handleScroll(item.href)}
+                  className="text-sm text-muted transition hover:text-text py-2 text-left whitespace-nowrap"
+                >
+                  {item.label}
+                </button>
+              ))}
+              <button
+                onClick={() => handleScroll('#contact')}
+                className="mt-2 w-full rounded-full border border-white/10 bg-white/10 px-4 py-2.5 text-sm font-medium text-text transition hover:bg-white/15"
+              >
+                Let's Talk
+              </button>
+            </nav>
+          </div>
+        </div>
+      )}
     </header>
   )
 }

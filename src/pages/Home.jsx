@@ -1,5 +1,7 @@
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
+import { gsap } from 'gsap'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import Navbar from '../components/layout/Navbar'
 import AvatarScene from '../components/avatar/AvatarScene'
 import SpeechBubble from '../components/avatar/SpeechBubble'
@@ -11,9 +13,25 @@ import TechStackSection from '../components/tech/TechStackSection'
 import ContactSection from '../components/contact/ContactSection'
 import { useScrollStory } from '../hooks/useScrollStory'
 
+gsap.registerPlugin(ScrollToPlugin)
+
 export default function Home() {
   const pageRef = useRef(null)
   useScrollStory(pageRef)
+
+  const handleScroll = (id) => {
+    const section = document.querySelector(id)
+    if (!section) return
+
+    gsap.to(window, {
+      duration: 1.2,
+      ease: 'power3.inOut',
+      scrollTo: {
+        y: section,
+        offsetY: 80,
+      },
+    })
+  }
 
   return (
     <div ref={pageRef} className="relative min-h-screen overflow-x-hidden bg-hero-gradient text-text story-grid">
@@ -55,14 +73,24 @@ export default function Home() {
                 initial={{ opacity: 0, y: 28 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.85 }}
-                className="mt-8 sm:mt-10 flex flex-col xs:flex-row flex-wrap gap-3 sm:gap-4"
+                className="mt-8 sm:mt-10 flex flex-col xs:flex-row flex-wrap gap-3 sm:gap-4 items-center xs:items-start"
               >
-                <a href="#projects" className="rounded-full bg-text px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-bg whitespace-nowrap">
+                <motion.button 
+                  onClick={() => handleScroll('#projects')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="rounded-full bg-text px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-bg whitespace-nowrap transition cursor-pointer shadow-lg hover:shadow-[0_0_40px_rgba(243,246,255,0.3)]"
+                >
                   View Projects
-                </a>
-                <a href="#contact" className="rounded-full border border-white/10 bg-white/10 px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-text whitespace-nowrap">
+                </motion.button>
+                <motion.button 
+                  onClick={() => handleScroll('#contact')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="rounded-full border border-white/10 bg-white/10 px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-text whitespace-nowrap transition cursor-pointer shadow-lg hover:shadow-[0_0_40px_rgba(124,140,255,0.3)] hover:border-white/20 hover:bg-white/20"
+                >
                   Connect With Me
-                </a>
+                </motion.button>
               </motion.div>
             </div>
 
