@@ -18,6 +18,8 @@ export default function Chatbot() {
   const [loading, setLoading] = useState(false)
   const [isTyping, setIsTyping] = useState(false)
   const [showContactForm, setShowContactForm] = useState(false)
+  const [showPrompt, setShowPrompt] = useState(false)
+
   const messagesEndRef = useRef(null)
   const scrollContainerRef = useRef(null)
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true)
@@ -47,6 +49,40 @@ export default function Chatbot() {
       }, 0)
     }
   }, [messages, isTyping, shouldAutoScroll, showContactForm])
+
+  useEffect(() => {
+    let showTimeout
+    let hideTimeout
+    let initialTimeout
+
+    const scheduleBubble = () => {
+      const nextDelay = Math.floor(Math.random() * 5000) + 10000
+
+      showTimeout = setTimeout(() => {
+        setShowPrompt(true)
+
+        hideTimeout = setTimeout(() => {
+          setShowPrompt(false)
+          scheduleBubble()
+        }, 3000)
+      }, nextDelay)
+    }
+
+    initialTimeout = setTimeout(() => {
+      setShowPrompt(true)
+
+      hideTimeout = setTimeout(() => {
+        setShowPrompt(false)
+        scheduleBubble()
+      }, 3000)
+    }, 4000)
+
+    return () => {
+      clearTimeout(initialTimeout)
+      clearTimeout(showTimeout)
+      clearTimeout(hideTimeout)
+    }
+  }, [])
 
   const handleScroll = () => {
     if (!scrollContainerRef.current) return
@@ -211,16 +247,25 @@ export default function Chatbot() {
         }
       `}</style>
 
+      {showPrompt && !isOpen && (
+        <div className="fixed bottom-24 right-6 z-[9999] animate-bounce">
+          <div className="relative rounded-2xl border border-white/10 bg-[#0f172a]/95 px-4 py-2 text-sm text-white shadow-xl backdrop-blur-xl">
+            Ask me anything!
+            <div className="absolute -bottom-2 right-5 h-4 w-4 rotate-45 border-r border-b border-white/10 bg-[#0f172a]/95" />
+          </div>
+        </div>
+      )}
+
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="fixed bottom-6 right-6 z-[9999] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-xl transition hover:scale-105"
+        className="fixed bottom-6 right-6 z-[9999] flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white shadow-xl transition hover:scale-105"
         aria-label="Open chatbot"
       >
-        {isOpen ? <X className="h-6 w-6" /> : <AvatarMini />}
+        {isOpen ? <X className="h-7 w-7" /> : <AvatarMini />}
       </button>
 
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-[9999] w-[360px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-3xl border border-white/10 bg-[#0f172a]/95 shadow-2xl backdrop-blur-xl">
+        <div className="fixed bottom-24 right-6 z-[9999] w-[460px] md:w-[520px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-3xl border border-white/10 bg-[#0f172a]/95 shadow-2xl backdrop-blur-xl">
           <div className="border-b border-white/10 px-5 py-4">
             <h3 className="text-base font-semibold text-white">Chat with Vyom Bot</h3>
             <p className="mt-1 text-sm text-slate-400">Quick answers + direct query forwarding</p>
@@ -231,7 +276,7 @@ export default function Chatbot() {
             onScroll={handleScroll}
             onWheel={(e) => e.stopPropagation()}
             data-lenis-prevent
-            className="chatbot-scroll max-h-[380px] space-y-3 overflow-y-auto px-4 py-4"
+            className="chatbot-scroll max-h-[560px] space-y-3 overflow-y-auto px-4 py-4"
           >
             {messages.map((msg, index) => (
               <div
