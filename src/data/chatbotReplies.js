@@ -9,10 +9,10 @@ export const presetQuestions = [
 
 export const chatbotReplies = {
   'Who are you?':
-    "I'm Vyom Gupta, a student developer who enjoys building interactive, modern, and meaningful digital experiences.",
+    "Hi! I'm Vyom Gupta, a student at Scaler School of Technology in Bangalore I'm passionate about building projects with modern tech like React, JavaScript, and Firebase.I love solving problems and creating clean, interactive user experiences.",
 
   'What tech stack do you use?':
-    'I work with React, JavaScript, Firebase, GSAP, Tailwind CSS, and I am also exploring Three.js and interactive UI experiences.',
+    'I build web applications using React, JavaScript, and Firebase.For problem solving, I rely on Java and Python, and I use Git to manage my code efficiently.I also have a strong foundation in C.',
 
   'Show me your projects':
     'You can explore my featured projects in the Projects section of this portfolio.',

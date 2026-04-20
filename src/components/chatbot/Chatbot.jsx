@@ -272,8 +272,7 @@ export default function Chatbot() {
       {isOpen && (
         <div className="fixed bottom-24 right-6 z-[9999] w-[380px] md:w-[420px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-3xl border border-white/10 bg-[#0f172a]/95 shadow-2xl backdrop-blur-xl">
           <div className="border-b border-white/10 px-5 py-4">
-            <h3 className="text-base font-semibold text-white">Chat with Vyom Bot</h3>
-            <p className="mt-1 text-sm text-slate-400">Quick answers + direct query forwarding</p>
+            <h3 className="text-base font-semibold text-white">Chat with Vyom's Bot</h3>
           </div>
 
           <div
