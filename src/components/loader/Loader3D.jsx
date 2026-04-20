@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
@@ -52,10 +52,26 @@ function RotatingGeometry({ progress }) {
 }
 
 export default function Loader3D({ progress }) {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  // Reduce quality on mobile for better performance
+  const dpr = isMobile ? 1 : window.devicePixelRatio
+
   return (
     <Canvas
       camera={{ position: [0, 0, 3.5], fov: 50 }}
       style={{ height: '100%', width: '100%' }}
+      dpr={dpr}
+      performance={{ min: isMobile ? 0.5 : 0.25 }}
     >
       <ambientLight intensity={0.6} />
       <directionalLight position={[5, 5, 5]} intensity={0.8} />

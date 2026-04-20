@@ -6,8 +6,20 @@ export default function CustomCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
   const [isClicking, setIsClicking] = useState(false)
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
 
   useEffect(() => {
+    // Check if device is touch-enabled
+    const checkTouchDevice = () => {
+      const isMobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+      setIsTouchDevice(isMobile)
+    }
+
+    checkTouchDevice()
+
+    // Return early if it's a touch device
+    if (isTouchDevice) return
+
     const handleMouseMove = (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY })
     }
@@ -63,7 +75,10 @@ export default function CustomCursor() {
       window.removeEventListener('mouseup', handleMouseUp)
       clearInterval(interval)
     }
-  }, [])
+  }, [isTouchDevice])
+
+  // Don't render on touch devices
+  if (isTouchDevice) return null
 
   return (
     <>
@@ -135,15 +150,17 @@ export default function CustomCursor() {
         )}
       </motion.div>
 
-      {/* Hide default cursor */}
-      <style>{`
-        * {
-          cursor: none !important;
-        }
-        input, textarea, select {
-          cursor: text !important;
-        }
-      `}</style>
+      {/* Hide default cursor only on desktop */}
+      {!isTouchDevice && (
+        <style>{`
+          * {
+            cursor: none !important;
+          }
+          input, textarea, select {
+            cursor: text !important;
+          }
+        `}</style>
+      )}
     </>
   )
 }
