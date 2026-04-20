@@ -85,7 +85,7 @@ export default function CustomCursor() {
       {/* Outer glow circle */}
       <motion.div
         ref={cursorRef}
-        className="pointer-events-none fixed z-[9999]"
+        className="pointer-events-none fixed z-[999999]"
         style={{
           x: mousePosition.x,
           y: mousePosition.y,
