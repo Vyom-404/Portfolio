@@ -47,8 +47,8 @@ export default function CinematicLoader({ onComplete }) {
       <BackgroundOrbs />
       <Particles />
 
-      {/* 3D Canvas Background - hidden on mobile for better performance */}
-      <div className="absolute inset-0 opacity-30 md:opacity-40 hidden sm:block">
+      {/* 3D Canvas Background */}
+      <div className="absolute inset-0 opacity-30 md:opacity-40">
         <Loader3D progress={progress} />
       </div>
 
