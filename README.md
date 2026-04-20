@@ -3,6 +3,7 @@
 A **cinematic, fully responsive developer portfolio** featuring interactive 3D elements, smooth animations, AI-powered chatbot, and an immersive storytelling experience. Built with modern web technologies for exceptional performance and user experience across all devices.
 
 **Live Demo:** [https://portfolio-murex-five-j47izxvdwi.vercel.app/]
+**Video Demo:** [https://drive.google.com/file/d/13Ol-K2kvNScxW8BhN4KLuZJeua8rjUZQ/view?usp=sharing]
 
 ---
 
