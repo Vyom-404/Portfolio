@@ -1,9 +1,10 @@
 import { useEffect, useState, useRef } from 'react'
-import { MessageCircle, X, Send } from 'lucide-react'
+import { X, Send } from 'lucide-react'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../lib/firebase'
 import { chatbotReplies, presetQuestions, forwardingQuestions } from '../../data/chatbotReplies'
 import ChatbotContactForm from './ChatbotContactForm'
+import AvatarMini from '../avatar/AvatarMini'
 
 function normalizeText(text) {
   return text.toLowerCase().trim().replace(/[?.!,]/g, '')
@@ -194,14 +195,17 @@ export default function Chatbot() {
         .chatbot-scroll::-webkit-scrollbar {
           width: 6px;
         }
+
         .chatbot-scroll::-webkit-scrollbar-track {
           background: rgba(255, 255, 255, 0.05);
           border-radius: 10px;
         }
+
         .chatbot-scroll::-webkit-scrollbar-thumb {
           background: rgba(124, 140, 255, 0.4);
           border-radius: 10px;
         }
+
         .chatbot-scroll::-webkit-scrollbar-thumb:hover {
           background: rgba(124, 140, 255, 0.6);
         }
@@ -212,7 +216,7 @@ export default function Chatbot() {
         className="fixed bottom-6 right-6 z-[9999] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-xl transition hover:scale-105"
         aria-label="Open chatbot"
       >
-        {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+        {isOpen ? <X className="h-6 w-6" /> : <AvatarMini />}
       </button>
 
       {isOpen && (
