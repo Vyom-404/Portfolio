@@ -113,7 +113,6 @@ export default function Chatbot() {
     setMessages((prev) => [...prev, userMessage])
     setIsTyping(true)
     setShouldAutoScroll(true)
-    setShowContactForm(false)
 
     const reply =
       chatbotReplies[questionText] ||
@@ -124,6 +123,8 @@ export default function Chatbot() {
       setIsTyping(false)
 
       if (forwardingQuestions.includes(questionText)) {
+        setShowContactForm(true)
+
         try {
           await addDoc(collection(db, 'chat_queries'), {
             query: questionText,
@@ -133,6 +134,8 @@ export default function Chatbot() {
         } catch (error) {
           console.error('Error saving chatbot query:', error)
         }
+      } else {
+        setShowContactForm(false)
       }
     }, 1200)
   }
@@ -161,11 +164,11 @@ export default function Chatbot() {
 
     setTimeout(async () => {
       if (presetMatch) {
-        setShowContactForm(false)
-
         setMessages((prev) => [...prev, { sender: 'bot', text: presetMatch.reply }])
 
         if (forwardingQuestions.includes(presetMatch.question)) {
+          setShowContactForm(true)
+
           try {
             await addDoc(collection(db, 'chat_queries'), {
               query: presetMatch.question,
@@ -175,6 +178,8 @@ export default function Chatbot() {
           } catch (error) {
             console.error('Error saving chatbot query:', error)
           }
+        } else {
+          setShowContactForm(false)
         }
       } else {
         const lower = normalizeText(userInput)
@@ -258,14 +263,14 @@ export default function Chatbot() {
 
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="fixed bottom-6 right-6 z-[9999] flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white shadow-xl transition hover:scale-105"
+        className="fixed bottom-6 right-6 z-[9999] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-xl transition hover:scale-105"
         aria-label="Open chatbot"
       >
-        {isOpen ? <X className="h-7 w-7" /> : <AvatarMini />}
+        {isOpen ? <X className="h-6 w-6" /> : <AvatarMini />}
       </button>
 
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-[9999] w-[460px] md:w-[520px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-3xl border border-white/10 bg-[#0f172a]/95 shadow-2xl backdrop-blur-xl">
+        <div className="fixed bottom-24 right-6 z-[9999] w-[380px] md:w-[420px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-3xl border border-white/10 bg-[#0f172a]/95 shadow-2xl backdrop-blur-xl">
           <div className="border-b border-white/10 px-5 py-4">
             <h3 className="text-base font-semibold text-white">Chat with Vyom Bot</h3>
             <p className="mt-1 text-sm text-slate-400">Quick answers + direct query forwarding</p>
@@ -276,7 +281,7 @@ export default function Chatbot() {
             onScroll={handleScroll}
             onWheel={(e) => e.stopPropagation()}
             data-lenis-prevent
-            className="chatbot-scroll max-h-[560px] space-y-3 overflow-y-auto px-4 py-4"
+            className="chatbot-scroll max-h-[460px] space-y-3 overflow-y-auto px-4 py-4"
           >
             {messages.map((msg, index) => (
               <div
