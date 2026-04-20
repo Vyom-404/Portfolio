@@ -3,6 +3,7 @@ import Lenis from 'lenis'
 import gsap from 'gsap'
 import Home from './pages/Home'
 import CinematicLoader from './components/loader/CinematicLoader'
+import CustomCursor from './components/effects/CustomCursor'
 
 export default function App() {
   const [loading, setLoading] = useState(true)
@@ -28,6 +29,7 @@ export default function App() {
 
   return (
     <>
+      <CustomCursor />
       {loading && <CinematicLoader onComplete={() => setLoading(false)} />}
       <Home />
     </>
